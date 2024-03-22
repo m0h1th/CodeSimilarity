@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template_string
+from flask import Flask, request, render_template_string, render_template
 import subprocess
 import os
 from werkzeug.utils import secure_filename
@@ -7,27 +7,9 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB limit
 
-HTML_FORM = """
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Code Submission</title>
-</head>
-<body>
-    <h2>Submit your Python code</h2>
-    <form action="/submit" method="post" enctype="multipart/form-data">
-        <label for="problem_number">Problem Number:</label>
-        <input type="number" name="problem_number" id="problem_number" required><br><br>
-        <input type="file" name="file" accept=".py" required>
-        <input type="submit" value="Submit">
-    </form>
-</body>
-</html>
-"""
-
 @app.route('/')
 def index():
-    return render_template_string(HTML_FORM)
+    return render_template('index.html')
 
 def run_test_cases(problem_number, script_path):
     test_case_dir = f"problem{problem_number}"
@@ -65,6 +47,15 @@ def submit():
         return f'Passed {passed} out of {total} test cases.'
 
     return 'No file uploaded.'
+
+@app.route('/description/<int:problem_number>')
+def get_description(problem_number):
+    description_path = os.path.join(f'problem{problem_number}', 'Description.md')
+    if os.path.exists(description_path):
+        with open(description_path, 'r') as file:
+            content = file.read()
+        return content
+    return 'Description not found.'
 
 if __name__ == '__main__':
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
