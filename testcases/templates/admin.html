@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Page</title>
+</head>
+<body>
+    <h2>Create New Problem</h2>
+    <form action="/admin" method="post">
+        <label for="problem_number">Problem Number:</label>
+        <input type="number" name="problem_number" id="problem_number" required><br><br>
+        <label for="description">Description:</label><br>
+        <textarea name="description" id="description" rows="8" cols="50"></textarea><br><br>
+
+        <div id="examples">
+            <div class="example">
+                <label for="input1">Input 1:</label><br>
+                <textarea name="input" id="input1" rows="4" cols="50"></textarea><br><br>
+                <label for="output1">Output 1:</label><br>
+                <textarea name="output" id="output1" rows="4" cols="50"></textarea><br><br>
+            </div>
+        </div>
+
+        <button type="button" onclick="addExample()">Add Input-Output Example</button><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        function addExample() {
+            var examples = document.getElementById('examples');
+            var lastExample = examples.lastElementChild;
+            var newExample = lastExample.cloneNode(true);
+
+            // Increment input and output ids
+            var inputs = newExample.querySelectorAll('textarea[name="input"]');
+            var outputs = newExample.querySelectorAll('textarea[name="output"]');
+            var lastInputId = parseInt(inputs[inputs.length - 1].id.replace('input', ''));
+            var lastOutputId = parseInt(outputs[outputs.length - 1].id.replace('output', ''));
+            var newInputId = lastInputId + 1;
+            var newOutputId = lastOutputId + 1;
+            inputs.forEach(function(input) {
+                input.id = 'input' + newInputId;
+            });
+            outputs.forEach(function(output) {
+                output.id = 'output' + newOutputId;
+            });
+
+            examples.appendChild(newExample);
+        }
+    </script>
+</body>
+</html>
