@@ -27,7 +27,10 @@ def run_test_cases(problem_number, script_path):
 
             with open(os.path.join(input_dir, input_file), 'r') as inp:
                 expected_output = open(os.path.join(output_dir, output_file), 'r').read().strip()
-                process = subprocess.run(['python', script_path], stdin=inp, capture_output=True, text=True)
+                try:
+                    process = subprocess.run(['python', script_path], stdin=inp, capture_output=True, text=True)
+                except FileNotFoundError:
+                    process = subprocess.run(['python3', script_path], stdin=inp, capture_output=True, text=True)
                 actual_output = process.stdout.strip()
 
                 if actual_output == expected_output:
