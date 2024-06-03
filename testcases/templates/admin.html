@@ -1,3 +1,4 @@
+<!-- admin.html -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +18,12 @@
                 <textarea name="input" id="input1" rows="4" cols="50"></textarea><br><br>
                 <label for="output1">Output</label><br>
                 <textarea name="output" id="output1" rows="4" cols="50"></textarea><br><br>
+                <label for="difficulty1">Difficulty</label><br>
+                <select name="difficulty" id="difficulty1">
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select><br><br>
             </div>
         </div>
 
@@ -30,18 +37,27 @@
             var lastExample = examples.lastElementChild;
             var newExample = lastExample.cloneNode(true);
 
-            // Increment input and output ids
+            // Increment input, output, and difficulty ids
             var inputs = newExample.querySelectorAll('textarea[name="input"]');
             var outputs = newExample.querySelectorAll('textarea[name="output"]');
+            var difficulties = newExample.querySelectorAll('select[name="difficulty"]');
+            
             var lastInputId = parseInt(inputs[inputs.length - 1].id.replace('input', ''));
-            var lastOutputId = parseInt(outputs[outputs.length - 1].id.replace('output', ''));
             var newInputId = lastInputId + 1;
-            var newOutputId = lastOutputId + 1;
+            
             inputs.forEach(function(input) {
                 input.id = 'input' + newInputId;
+                input.value = ''; // Clear value
             });
+
             outputs.forEach(function(output) {
-                output.id = 'output' + newOutputId;
+                output.id = 'output' + newInputId;
+                output.value = ''; // Clear value
+            });
+
+            difficulties.forEach(function(difficulty) {
+                difficulty.id = 'difficulty' + newInputId;
+                difficulty.value = 'easy'; // Reset to default
             });
 
             examples.appendChild(newExample);
