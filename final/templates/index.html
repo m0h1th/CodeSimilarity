@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Code Submission</title>
+    <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.1/dist/showdown.min.js"></script>
+    <script>
+        async function fetchDescription() {
+            let problemNumber = document.getElementById('problem_number').value;
+            if (problemNumber) {
+                const response = await fetch(`/description/${problemNumber}`);
+                const markdown = await response.text();
+                var converter = new showdown.Converter(),
+                    html = converter.makeHtml(markdown);
+                document.getElementById('description').innerHTML = html;
+            } else {
+                document.getElementById('description').innerHTML = '';
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>Submit your code [Python/C]</h2>
+    <form action="/submit" method="post" enctype="multipart/form-data">
+        <label for="problem_number">Problem Number:</label>
+        <input type="number" name="problem_number" id="problem_number" oninput="fetchDescription()" required><br><br>
+        <input type="file" name="file" accept=".py" required>
+        <input type="submit" value="Submit">
+    </form>
+    <div id="description" style="margin-top: 20px; white-space: pre-wrap;"></div>
+</body>
+</html>

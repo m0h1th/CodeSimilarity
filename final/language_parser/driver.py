@@ -7,11 +7,11 @@ import tree_sitter_python as tspython
 import tree_sitter_c as tsc
 import ast
 from icecream import ic
-from pythonast import *
-from c_ast import *
+from language_parser.pythonast import *
+from language_parser.c_ast import *
 
-from Checker import Checker
-from AST import AST, ASTGenerationException, ASTSearchException
+from language_parser.Checker import Checker
+from language_parser.AST import AST, ASTGenerationException, ASTSearchException
 
 def driver(
     AST_class: AST,
@@ -103,6 +103,15 @@ def driver(
     result["execution_time"] = (end_time - start_time).total_seconds()
 
     return result
+
+def run_test(directory):
+    source_filenames = [os.path.join(directory, f) for f in os.listdir(directory)]
+    py_files = [f for f in source_filenames if f.endswith(".py")]
+    c_files = [f for f in source_filenames if f.endswith(".c")]
+    result1 = driver(Python_AST, py_files, '*', PYTHON_FUNCTION_KIND, 5)
+    result2 = driver(C_AST, c_files, '*', C_FUNCTION_KIND, 5)
+    return result1, result2
+    
 
 
 if __name__ == '__main__':
