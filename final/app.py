@@ -107,10 +107,8 @@ def get_description(problem_number):
 
 @app.route('/result/<int:problem_number>')
 def get_result(problem_number):
-    return run_test(f'uploads/problem{problem_number}')
-    # except Exception as e:
-    #     print(e)
-    #     return "Problem files not found"
+    data_python, data_c = run_test(f'uploads/problem{problem_number}')
+    return render_template('result.html', data_python=data_python, data_c=data_c)
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():

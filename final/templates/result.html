@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Code Similarity Results</title>
+</head>
+<body>
+    <h1>Code Similarity Results</h1>
+
+    <h2>Python Programs</h2>
+    <table border="1">
+        <tr>
+            <th>Submission A</th>
+            <th>Submission B</th>
+            <th>Similarity (%)</th>
+        </tr>
+        {% for result in data_python['result'] %}
+        <tr>
+            <td>{{ result['submission_A'].split('/')[-1] }}</td>
+            <td>{{ result['submission_B'].split('/')[-1] }}</td>
+            <td>{{ result['similarity'] * 100 }}%</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>C Programs</h2>
+    <table border="1">
+        <tr>
+            <th>Submission A</th>
+            <th>Submission B</th>
+            <th>Similarity (%)</th>
+        </tr>
+        {% for result in data_c['result'] %}
+        <tr>
+            <td>{{ result['submission_A'].split('/')[-1] }}</td>
+            <td>{{ result['submission_B'].split('/')[-1] }}</td>
+            <td>{{ result['similarity'] * 100 }}%</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>
